@@ -6,6 +6,11 @@ use Laravel\Dusk\Browser;
 
 class UtilityPayment extends Page
 {
+    /**
+     * Set the main URL for browser visit
+     *
+     * @return string
+     */
     public function url()
     {
         return 'https://www.municipalonlinepayments.com';
@@ -23,9 +28,10 @@ class UtilityPayment extends Page
         $day = \Carbon\Carbon::now()->day;
 
         // They always post the bill on the 18th.
-        if($day > 18 && $day < 28){
-
-            $browser->visit('robinsontx/utilities/accounts/detail/03-4134-01') // I purposely put the direct URI that way after I log in I will get redirected to this page.
+        if($day > 18 && $day < 28)
+	{
+            $browser->visit('robinsontx/utilities/accounts/detail/03-4134-01') 
+	    // I purposely put the direct URI that way after I log in I will get redirected to this page.
                     ->assertSee('Login') // Making sure the login form is showing.
                     ->assertSee('Email')
                     ->type('UserName', '{REDACTED}') //
@@ -35,7 +41,7 @@ class UtilityPayment extends Page
                     ->assertSee('{REDACTED}') // Confirmed my address is showing
                     ->press('Make a Payment') // Should redirect me to the page to submit my payment amount.
                     ->press('Continue') // They prepopulate the payment amount so I all I need to do is continue.
-                    ->assertPathIs('/robinsontx/utilities/payment/submit') // Make sure I'm on the page where it all goes down ;)
+                    ->assertPathIs('/robinsontx/utilities/payment/submit') // Make sure I'm on the page where it all goes down
                     ->assertSee('Submit Payment') // Making sure the button I'm targeting is visible.
                     ->assertSee('{REDACTED}') // Make sure the last 4 of my card is showing.
                     ->type('cvv', '{REDACTED}') // Put my CC security code.
